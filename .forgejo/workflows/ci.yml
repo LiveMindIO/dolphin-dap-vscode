@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-package:
+    name: Test and package VSIX
+    runs-on: livemindio-docker
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          github-server-url: https://git.jacoby6000.com
+          persist-credentials: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Run tests
+        run: npm test
+
+      - name: Package extension
+        run: npx --yes @vscode/vsce package
+
+      - name: Upload VSIX
+        uses: https://code.forgejo.org/forgejo/upload-artifact@v4
+        with:
+          name: dolphin-dap-client-vsix
+          path: "*.vsix"
+          if-no-files-found: error
+          retention-days: 7
