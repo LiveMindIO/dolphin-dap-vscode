@@ -1,0 +1,90 @@
+{
+  "name": "dolphin-dap-client",
+  "displayName": "Dolphin DAP Client",
+  "description": "Connect Visual Studio Code-compatible editors to Dolphin's DAP server.",
+  "version": "0.1.1",
+  "publisher": "livemindio",
+  "license": "GPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiveMindIO/dolphin-dap-vscode.git"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Debuggers"
+  ],
+  "main": "./extension.js",
+  "scripts": {
+    "test": "node --test proxy.test.js"
+  },
+  "activationEvents": [
+    "onDebugResolve:dolphin"
+  ],
+  "contributes": {
+    "breakpoints": [
+      {
+        "language": "c"
+      },
+      {
+        "language": "cpp"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "dolphin",
+        "label": "Dolphin",
+        "languages": [
+          "c",
+          "cpp"
+        ],
+        "configurationAttributes": {
+          "attach": {
+            "properties": {
+              "host": {
+                "type": "string",
+                "default": "127.0.0.1",
+                "description": "Host running Dolphin."
+              },
+              "port": {
+                "type": "number",
+                "default": 5678,
+                "minimum": 1,
+                "maximum": 65535,
+                "description": "Dolphin DAP TCP port."
+              },
+              "socket": {
+                "type": "string",
+                "description": "Dolphin DAP socket path. Takes priority over host and port."
+              },
+              "sourcePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [],
+                "description": "Ordered directories used to resolve relative and basename-only DWARF source paths."
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "default": true,
+                "description": "Pause when the debugger connects."
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "name": "Attach to Dolphin",
+            "type": "dolphin",
+            "request": "attach",
+            "host": "127.0.0.1",
+            "port": 5678,
+            "stopOnEntry": true
+          }
+        ]
+      }
+    ]
+  }
+}
