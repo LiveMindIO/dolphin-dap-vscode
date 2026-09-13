@@ -2,7 +2,7 @@
   "name": "dolphin-dap-client",
   "displayName": "Dolphin DAP Client",
   "description": "Connect Visual Studio Code-compatible editors to Dolphin's DAP server.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "livemindio",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -16,9 +16,6 @@
     "Debuggers"
   ],
   "main": "./extension.js",
-  "scripts": {
-    "test": "node --test proxy.test.js"
-  },
   "activationEvents": [
     "onDebugResolve:dolphin"
   ],
@@ -57,14 +54,6 @@
               "socket": {
                 "type": "string",
                 "description": "Dolphin DAP socket path. Takes priority over host and port."
-              },
-              "sourcePaths": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "default": [],
-                "description": "Ordered directories used to resolve relative and basename-only DWARF source paths."
               },
               "stopOnEntry": {
                 "type": "boolean",
