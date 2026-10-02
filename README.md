@@ -34,11 +34,16 @@ Open **Run and Debug** and select:
 - **Debug** to start Dolphin with the existing `build/GALE01/main.elf`.
 
 Both configurations execute the debug ELF while mounting the ISO for disc data. The
-launch task starts Dolphin with these source roots:
+launch task starts Dolphin with core debugging enabled and these source roots:
 
 ```bash
+-C Dolphin.Interface.DebugModeEnabled=True
 -C 'Dolphin.Debug.SourcePaths=${workspaceFolder}/src;${workspaceFolder}/extern/dolphin/src'
 ```
+
+Keep the core-debugging argument when adapting the launch task or starting Dolphin
+manually. A DAP port or socket alone does not enable breakpoint checks and
+debugger-aware stepping. This setting does not open GUI panes in the NoGUI build.
 
 Dolphin resolves DWARF source names and returns full paths through DAP. Do not add source
 mapping fields to `launch.json`. When the debug session ends, `postDebugTask` stops the
