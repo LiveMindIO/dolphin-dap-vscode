@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Configure Dolphin Debug ELF",
+      "type": "process",
+      "command": "python3",
+      "windows": { "command": "python" },
+      "args": ["configure.py", "--version", "GPVE01", "--debug", "--non-matching", "--map"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Dolphin Debug ELF",
+      "type": "process",
+      "command": "ninja",
+      "args": ["build/GPVE01/main.elf"],
+      "dependsOn": "Configure Dolphin Debug ELF",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    }
+  ]
+}

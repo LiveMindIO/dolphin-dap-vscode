@@ -2,7 +2,7 @@
   "name": "dolphin-dap-client",
   "displayName": "Dolphin DAP Client",
   "description": "Connect Visual Studio Code-compatible editors to Dolphin's DAP server.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "livemindio",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -15,7 +15,13 @@
   "categories": [
     "Debuggers"
   ],
-  "main": "./extension.js",
+  "main": "./out/extension.js",
+  "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "vscode:prepublish": "npm run compile",
+    "test": "npm run compile && node --test tests/extension.test.js tests/launcher.test.js"
+  },
   "activationEvents": [
     "onDebugResolve:dolphin"
   ],
@@ -37,6 +43,58 @@
           "cpp"
         ],
         "configurationAttributes": {
+          "launch": {
+            "required": [
+              "dolphin",
+              "program"
+            ],
+            "properties": {
+              "dolphin": {
+                "type": "string",
+                "description": "Absolute path to the Dolphin DAP executable."
+              },
+              "program": {
+                "type": "string",
+                "description": "ISO, ELF, or DOL to boot."
+              },
+              "elfFile": {
+                "type": "string",
+                "description": "Debug ELF supplying symbols and DWARF."
+              },
+              "replaceDiscExecutable": {
+                "type": "boolean",
+                "default": true,
+                "description": "Replace the disc executable with the debug ELF. Set false for metadata-only debugging."
+              },
+              "sourcePaths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": [],
+                "description": "Ordered source roots passed to Dolphin."
+              },
+              "platform": {
+                "type": "string",
+                "description": "NoGUI platform, such as x11, win32, or headless. Omit for Qt Dolphin."
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Working directory; defaults to the workspace folder."
+              },
+              "startupTimeout": {
+                "type": "integer",
+                "minimum": 100,
+                "default": 30000,
+                "description": "DAP connection timeout in milliseconds."
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "default": true,
+                "description": "Pause when the debugger connects."
+              }
+            }
+          },
           "attach": {
             "properties": {
               "host": {
@@ -65,6 +123,18 @@
         },
         "initialConfigurations": [
           {
+            "name": "Launch Dolphin",
+            "type": "dolphin",
+            "request": "launch",
+            "dolphin": "${workspaceFolder}/path/to/dolphin-emu",
+            "program": "${workspaceFolder}/game.iso",
+            "elfFile": "${workspaceFolder}/build/main.elf",
+            "sourcePaths": [
+              "${workspaceFolder}/src"
+            ],
+            "stopOnEntry": true
+          },
+          {
             "name": "Attach to Dolphin",
             "type": "dolphin",
             "request": "attach",
@@ -75,5 +145,10 @@
         ]
       }
     ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^7.0.2"
   }
 }

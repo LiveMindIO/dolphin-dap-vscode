@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Pikmin 2",
+      "type": "dolphin",
+      "request": "launch",
+      "dolphin": "/path/to/dolphin-emu-nogui",
+      "program": "${workspaceFolder}/game.iso",
+      "elfFile": "${workspaceFolder}/build/GPVE01/main.elf",
+      "sourcePaths": ["${workspaceFolder}/src", "${workspaceFolder}/include"],
+      "stopOnEntry": true
+    },
+    {
+      "name": "Build and Debug Pikmin 2",
+      "type": "dolphin",
+      "request": "launch",
+      "preLaunchTask": "Build Dolphin Debug ELF",
+      "dolphin": "/path/to/dolphin-emu-nogui",
+      "program": "${workspaceFolder}/game.iso",
+      "elfFile": "${workspaceFolder}/build/GPVE01/main.elf",
+      "sourcePaths": ["${workspaceFolder}/src", "${workspaceFolder}/include"],
+      "stopOnEntry": true
+    }
+  ]
+}

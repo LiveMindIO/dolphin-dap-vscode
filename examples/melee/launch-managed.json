@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Melee",
+      "type": "dolphin",
+      "request": "launch",
+      "dolphin": "/path/to/dolphin-emu-nogui",
+      "program": "/path/to/melee.iso",
+      "elfFile": "${workspaceFolder}/build/GALE01/main.elf",
+      "sourcePaths": ["${workspaceFolder}/src", "${workspaceFolder}/extern/dolphin/src"],
+      "stopOnEntry": true
+    }
+  ]
+}
