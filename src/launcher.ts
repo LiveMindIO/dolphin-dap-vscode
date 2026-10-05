@@ -20,6 +20,7 @@ export interface ManagedLaunch {
 
 export function launchArguments(config: LaunchConfig, port: number): string[] {
   const args = ["-C", "Dolphin.Interface.DebugModeEnabled=True",
+    "-C", "Dolphin.General.DAPSocket=",
     "-C", `Dolphin.General.DAPPort=${port}`];
   if (config.elfFile) args.push("-C", `Dolphin.Debug.ELFFile=${config.elfFile}`);
   args.push("-C", `Dolphin.Debug.ReplaceDiscExecutable=${config.replaceDiscExecutable !== false}`);

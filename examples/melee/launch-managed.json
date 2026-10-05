@@ -8,7 +8,8 @@
       "dolphin": "/path/to/dolphin-emu-nogui",
       "program": "/path/to/melee.iso",
       "elfFile": "${workspaceFolder}/build/GALE01/main.elf",
-      "sourcePaths": ["${workspaceFolder}/src", "${workspaceFolder}/extern/dolphin/src"],
+      "replaceDiscExecutable": true,
+      "sourcePaths": ["${workspaceFolder}/src", "${workspaceFolder}/libs/dolphin/src"],
       "stopOnEntry": true
     }
   ]

@@ -19,11 +19,24 @@ test("launch arguments default to replacement and support Windows paths without 
   const config = { program: "C:\\My Games\\game.iso", elfFile: "C:\\Debug Build\\main.elf", sourcePaths: ["C:\\Source One", "C:\\Source Two"] };
   const args = launchArguments(config, 5678);
   assert(args.includes("Dolphin.Interface.DebugModeEnabled=True"));
+  assert(args.includes("Dolphin.General.DAPSocket="), "TCP launches must clear saved socket settings");
+  assert(args.includes("Dolphin.General.DAPPort=5678"));
   assert(args.includes("Dolphin.Debug.ReplaceDiscExecutable=true"));
   assert(args.includes(config.program));
   assert(args.includes(`Dolphin.Debug.ELFFile=${config.elfFile}`));
   assert(args.includes("Dolphin.Debug.SourcePaths=C:\\Source One;C:\\Source Two"));
   assert(launchArguments({ ...config, replaceDiscExecutable: false }, 5678).includes("Dolphin.Debug.ReplaceDiscExecutable=false"));
+});
+
+test("NoGUI platform defaults match the host and Qt omits the flag", () => {
+  const platform = process.platform === "win32" ? "win32" : "x11";
+  for (const dolphin of ["/tools/dolphin-emu-nogui", "C:\\Tools\\dolphin-emu-nogui.exe"]) {
+    const args = launchArguments({ dolphin, program: "game.iso" }, 5678);
+    assert.equal(args[args.indexOf("--platform") + 1], platform);
+  }
+  assert(!launchArguments({ dolphin: "/tools/dolphin-emu", program: "game.iso" }, 5678).includes("--platform"));
+  const args = launchArguments({ dolphin: "/tools/dolphin-emu-nogui", program: "game.iso", platform: "headless" }, 5678);
+  assert.equal(args[args.indexOf("--platform") + 1], "headless");
 });
 
 test("managed launch retries readiness, forwards traffic, and stops its child", async () => {

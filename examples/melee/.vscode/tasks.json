@@ -7,7 +7,7 @@
       "command": "/bin/bash",
       "args": [
         "-c",
-        "set -e\npython configure.py --debug\nninja"
+        "set -e\npython3 configure.py --debug\nninja"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -26,7 +26,7 @@
         "${env:HOME}/projects/dolphin-dap/build/Binaries/dolphin-emu-nogui",
         "${env:HOME}/games/melee.iso",
         "${workspaceFolder}/build/GALE01/main.elf",
-        "${workspaceFolder}/src;${workspaceFolder}/extern/dolphin/src"
+        "${workspaceFolder}/src;${workspaceFolder}/libs/dolphin/src"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
